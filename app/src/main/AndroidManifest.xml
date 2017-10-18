@@ -24,6 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.LocalSearchActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="eda3248a4e559831956e2356540ee3d99cad842c" />
     </application>
 
 </manifest>

@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 26
@@ -39,6 +54,10 @@ dependencies {
     compile "com.github.miguelbcr:RxPaparazzo:0.4.7"
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.jakewharton.timber:timber:4.3.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
+        transitive = true;
+    }
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
 
 }
