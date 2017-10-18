@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cz.begera.evolutionimagecompression.view.activity.MainActivity">
+    tools:context="cz.begera.evolutionaryimagecompression.cz.begera.evolutionaryimagecompression.view.activity.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"

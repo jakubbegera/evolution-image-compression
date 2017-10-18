@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.view.activity;
+package cz.begera.evolutionaryimagecompression.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +25,10 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.begera.evolutionimagecompression.R;
-import cz.begera.evolutionimagecompression.model.IterationData;
-import cz.begera.evolutionimagecompression.usecase.CompressImageUsecase;
-import cz.begera.evolutionimagecompression.view.dialogs.AdjustNumberOfIterationsDialog;
+import cz.begera.evolutionaryimagecompression.R;
+import cz.begera.evolutionaryimagecompression.model.IterationData;
+import cz.begera.evolutionaryimagecompression.usecase.CompressImageUsecase;
+import cz.begera.evolutionaryimagecompression.view.dialogs.AdjustNumberOfIterationsDialog;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import rx.Observer;
 import rx.Subscription;

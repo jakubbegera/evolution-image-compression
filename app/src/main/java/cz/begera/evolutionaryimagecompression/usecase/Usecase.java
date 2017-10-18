@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.usecase;
+package cz.begera.evolutionaryimagecompression.usecase;
 
 import rx.Observer;
 import rx.Subscription;

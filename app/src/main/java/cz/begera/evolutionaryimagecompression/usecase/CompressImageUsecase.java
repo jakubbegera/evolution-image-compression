@@ -1,12 +1,12 @@
-package cz.begera.evolutionimagecompression.usecase;
+package cz.begera.evolutionaryimagecompression.usecase;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import java.util.LinkedList;
 
-import cz.begera.evolutionimagecompression.model.Circle;
-import cz.begera.evolutionimagecompression.model.IterationData;
+import cz.begera.evolutionaryimagecompression.model.Circle;
+import cz.begera.evolutionaryimagecompression.model.IterationData;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;

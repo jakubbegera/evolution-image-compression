@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.model;
+package cz.begera.evolutionaryimagecompression.model;
 
 import android.graphics.Bitmap;
 

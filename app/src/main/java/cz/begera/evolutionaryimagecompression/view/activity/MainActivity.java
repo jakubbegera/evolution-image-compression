@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.view.activity;
+package cz.begera.evolutionaryimagecompression.view.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,7 +15,7 @@ import com.miguelbcr.ui.rx_paparazzo.entities.size.CustomMaxSize;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.begera.evolutionimagecompression.R;
+import cz.begera.evolutionaryimagecompression.R;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;

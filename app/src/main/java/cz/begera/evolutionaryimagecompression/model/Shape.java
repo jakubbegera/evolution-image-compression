@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.model;
+package cz.begera.evolutionaryimagecompression.model;
 
 /**
  * Created by Jakub Begera (jakub@easycoreapps.com) on 18.10.17.

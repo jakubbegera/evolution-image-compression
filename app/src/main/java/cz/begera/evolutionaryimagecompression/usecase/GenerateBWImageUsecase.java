@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.usecase;
+package cz.begera.evolutionaryimagecompression.usecase;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

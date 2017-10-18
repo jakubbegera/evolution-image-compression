@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cz.begera.evolutionimagecompression.view.activity.MainActivity">
+    tools:context="cz.begera.evolutionaryimagecompression.cz.begera.evolutionaryimagecompression.view.activity.MainActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:gravity="center">
 
         <Button
             android:id="@+id/btn_local_search_camera"

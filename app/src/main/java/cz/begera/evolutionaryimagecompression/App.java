@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression;
+package cz.begera.evolutionaryimagecompression;
 
 import android.app.Application;
 import android.content.Context;
@@ -18,6 +18,11 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
+    public static boolean isUSBConnected(Context context) {
+        Intent intent = context.registerReceiver(null, new IntentFilter("android.hardware.usb.action.USB_STATE"));
+        return intent.getExtras().getBoolean("connected");
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,10 +37,5 @@ public class App extends Application {
         );
         RxPaparazzo.register(this);
         Timber.plant(new Timber.DebugTree());
-    }
-
-    public static boolean isUSBConnected(Context context) {
-        Intent intent = context.registerReceiver(null, new IntentFilter("android.hardware.usb.action.USB_STATE"));
-        return intent.getExtras().getBoolean("connected");
     }
 }

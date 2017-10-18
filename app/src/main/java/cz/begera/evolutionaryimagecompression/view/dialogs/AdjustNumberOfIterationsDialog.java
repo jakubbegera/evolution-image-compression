@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.view.dialogs;
+package cz.begera.evolutionaryimagecompression.view.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.begera.evolutionimagecompression.R;
+import cz.begera.evolutionaryimagecompression.R;
 import timber.log.Timber;
 
 /**

@@ -1,4 +1,4 @@
-package cz.begera.evolutionimagecompression.model;
+package cz.begera.evolutionaryimagecompression.model;
 
 /**
  * Created by Jakub Begera (jakub@easycoreapps.com) on 18.10.17.
@@ -20,20 +20,20 @@ public class Circle extends Shape {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
-    public int getDiameter() {
-        return diameter;
-    }
-
     public void setX(int x) {
         this.x = x;
     }
 
+    public int getY() {
+        return y;
+    }
+
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getDiameter() {
+        return diameter;
     }
 
     public void setDiameter(int diameter) {
