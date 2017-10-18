@@ -6,4 +6,6 @@
     <string name="number_of_iterations">Number of iterations: %d</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -49,16 +49,11 @@ public class CompressImageUsecase implements Usecase<IterationData> {
                         }
                     }
 
-                    for (int i = 0; i < numberOfIterations; i++, iteration++) {
+                    for (int i = 0; i < numberOfIterations && !subscriber.isUnsubscribed(); i++, iteration++) {
                         currentFitness = doIteration();
                         if (animate && i % 50 == 0) {
                             saveToBitmap(bitmap);
                             subscriber.onNext(new IterationData(iteration, bitmap, currentFitness));
-//                            try {
-//                                Thread.sleep(100);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
                         }
                     }
 

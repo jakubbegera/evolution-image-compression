@@ -171,7 +171,7 @@ public class LocalSearchActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(IterationData iteration) {
-                        imvCompress.setImageBitmap(iteration.getBitmap());
+                        imvCompress.setImageBitmap(iteration.getBitmap().copy(Bitmap.Config.ARGB_8888, false));
                         prbCompress.setVisibility(View.INVISIBLE);
                         addChartEntry(iteration.getIterationNumber(), (float) iteration.getFitness());
                         prbCompressIterations.setProgress(iteration.getIterationNumber());

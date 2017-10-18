@@ -1,16 +1,17 @@
 package cz.begera.evolutionimagecompression.view.dialogs;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.begera.evolutionimagecompression.R;
+import timber.log.Timber;
 
 /**
  * Created by Jakub Begera (jakub@easycoreapps.com) on 18.10.17.
@@ -29,22 +30,22 @@ public class AdjustNumberOfIterationsDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(v);
         builder.setTitle("Set number of iterations");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (callback != null) {
-                    String s = edt.getText().toString();
+        builder.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+            if (callback != null) {
+                String s = edt.getText().toString();
+                try {
                     callback.onNumberPicked(Integer.parseInt(s));
+                } catch (NumberFormatException e) {
+                    Timber.i(e);
+                    Toast.makeText(getActivity(),
+                            String.format("\"%s\" isn't valid number.", s), Toast.LENGTH_LONG
+                    ).show();
                 }
             }
         });
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (callback != null) {
-                    callback.onCancel();
-                }
+        builder.setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+            if (callback != null) {
+                callback.onCancel();
             }
         });
         builder.create();
