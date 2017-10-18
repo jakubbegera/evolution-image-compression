@@ -58,6 +58,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.4.2'
 
 
 }

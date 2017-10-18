@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Evolution Image Compression</string>
+    <string name="app_name">Evolutionary Image Compression</string>
+    <string name="progress">Progress %.1f%% (%d/%d)</string>
+    <string name="fork_me_on_github">Fork me on GitHub</string>
+    <string name="adjust">Adjust</string>
+    <string name="number_of_iterations">Number of iterations: %d</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
 </resources>
