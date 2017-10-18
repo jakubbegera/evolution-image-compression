@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.begera.evolutionimagecompression.R;
 import cz.begera.evolutionimagecompression.usecase.CompressImageUsecase;
-import cz.begera.evolutionimagecompression.usecase.GenerateBWImageUsecase;
 import rx.Observer;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -41,11 +40,6 @@ public class LocalSearchActivity extends AppCompatActivity {
 
     @BindView(R.id.imv_original)
     protected ImageView imvOriginal;
-
-    @BindView(R.id.imv_original_bw)
-    protected ImageView imvOriginalBw;
-    @BindView(R.id.prb_original_bw)
-    protected ProgressBar prbOriginalBW;
 
     @BindView(R.id.imv_compress)
     protected ImageView imvCompress;
@@ -74,7 +68,10 @@ public class LocalSearchActivity extends AppCompatActivity {
                         Timber.e("Picasso load ko");
                     }
                 });
-        initBwImage(originalPicturePath);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(originalPicturePath);
+
+        initCompressImage(bitmap);
 
     }
 
@@ -84,50 +81,26 @@ public class LocalSearchActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void initBwImage(String picturePath) {
-        Bitmap bitmapColor = BitmapFactory.decodeFile(picturePath);
-        Subscription subscription = new GenerateBWImageUsecase(bitmapColor).execute(new Observer<Bitmap>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Timber.e(e, "BW image init fail");
-                prbOriginalBW.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onNext(Bitmap bitmap) {
-                imvOriginalBw.setImageBitmap(bitmap);
-                initCompressImage(bitmapColor);
-                prbOriginalBW.setVisibility(View.GONE);
-
-            }
-        });
-        compositeSubscription.add(subscription);
-    }
-
     private void initCompressImage(Bitmap bitmap) {
-        Subscription subscription = new CompressImageUsecase(bitmap, true, 4000).execute(new Observer<Bitmap>() {
-            @Override
-            public void onCompleted() {
+        Subscription subscription = new CompressImageUsecase(bitmap, true, 4000)
+                .execute(new Observer<Bitmap>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Timber.e(e, "BW image init fail");
-                prbCompress.setVisibility(View.GONE);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "BW image init fail");
+                        prbCompress.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onNext(Bitmap bitmap) {
-                imvCompress.setImageBitmap(bitmap);
-                prbCompress.setVisibility(View.GONE);
-            }
-        });
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        imvCompress.setImageBitmap(bitmap);
+                        prbCompress.setVisibility(View.GONE);
+                    }
+                });
         compositeSubscription.add(subscription);
     }
 }

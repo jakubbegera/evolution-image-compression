@@ -43,8 +43,7 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
 
                     for (int i = 0; i < pixOriginal.length; i++, iteration++) {
                         for (int j = 0; j < pixOriginal[i].length; j++) {
-                            int pixel = bitmap.getPixel(i, j);
-                            pixOriginal[i][j] = Color.red(pixel);
+                            pixOriginal[i][j] = bitmap.getPixel(i, j);
                         }
                     }
 
@@ -115,7 +114,11 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
                     continue;
                 }
 
-                out[i][j] = (int) ((out[i][j] + shape.getColor()) / 2.0);
+                int red = (int) ((Color.red(out[i][j]) + Color.red(shape.getColor())) / 2.0);
+                int green = (int) ((Color.green(out[i][j]) + Color.green(shape.getColor())) / 2.0);
+                int blue = (int) ((Color.blue(out[i][j]) + Color.blue(shape.getColor())) / 2.0);
+
+                out[i][j] = Color.argb(0, red, green, blue);
             }
         }
 
@@ -126,7 +129,9 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
         long l = 0;
         for (int i = 0; i < pix1.length; i++) {
             for (int j = 0; j < pix1[i].length; j++) {
-                l += Math.abs(pix1[i][j] - pix2[i][j]);
+                l += Math.abs(Color.red(pix1[i][j]) - Color.red(pix2[i][j]));
+                l += Math.abs(Color.green(pix1[i][j]) - Color.green(pix2[i][j]));
+                l += Math.abs(Color.blue(pix1[i][j]) - Color.blue(pix2[i][j]));
             }
         }
         return l;
@@ -159,7 +164,7 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
     private void saveToBitmap(Bitmap bitmap) {
         for (int i = 0; i < pix.length; i++) {
             for (int j = 0; j < pix[0].length; j++) {
-                bitmap.setPixel(i, j, Color.argb(0, pix[i][j], pix[i][j], pix[i][j]));
+                bitmap.setPixel(i, j, pix[i][j]);
             }
         }
     }
