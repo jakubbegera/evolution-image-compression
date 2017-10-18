@@ -23,6 +23,7 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
     private int[][] pixOriginal;
     private int[][] pix;
     private LinkedList<Circle> shapes = new LinkedList<>();
+    private int iteration;
 
     public CompressImageUsecase(Bitmap bitmap, boolean animate, int numberOfIterations) {
         this.bitmap = bitmap;
@@ -40,7 +41,7 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
                     pixOriginal = new int[bitmap.getWidth()][bitmap.getHeight()];
                     pix = new int[bitmap.getWidth()][bitmap.getHeight()];
 
-                    for (int i = 0; i < pixOriginal.length; i++) {
+                    for (int i = 0; i < pixOriginal.length; i++, iteration++) {
                         for (int j = 0; j < pixOriginal[i].length; j++) {
                             int pixel = bitmap.getPixel(i, j);
                             pixOriginal[i][j] = Color.red(pixel);
@@ -49,11 +50,11 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
 
                     for (int i = 0; i < numberOfIterations; i++) {
                         doIteration();
-                        if (animate) {
+                        if (animate && i % 50 == 0) {
                             saveToBitmap(bitmap);
                             subscriber.onNext(bitmap);
                             try {
-                                Thread.sleep(2);
+                                Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -150,18 +151,9 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
 
     private int randomDiameter() {
         int min = Math.min(pixOriginal.length, pixOriginal[0].length);
-//        int i20 = (int) (Math.random() * (min / 20.0));
-//        int i50 = (int) (Math.random() * (min / 50.0));
-//        return (int) ((i20 + i50) / 2.0);
-
         int maxDiameter = min / 12;
-        return (int) (Math.random() * maxDiameter);
-
-//        double d1 = Math.random() * (min / 10);
-//        double d2 = Math.random() * (min / 30);
-//        return (int) ((d1 + d2) / 2.0);
-
-//        return (int) ((Math.random() * 78) % pixOriginal.length % 30);
+        double iterationCoefficient = 1 - (double) (iteration/2) / (double) numberOfIterations;
+        return (int) (Math.random() * maxDiameter * iterationCoefficient);
     }
 
     private void saveToBitmap(Bitmap bitmap) {

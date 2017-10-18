@@ -85,8 +85,8 @@ public class LocalSearchActivity extends AppCompatActivity {
     }
 
     private void initBwImage(String picturePath) {
-        Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-        Subscription subscription = new GenerateBWImageUsecase(bitmap).execute(new Observer<Bitmap>() {
+        Bitmap bitmapColor = BitmapFactory.decodeFile(picturePath);
+        Subscription subscription = new GenerateBWImageUsecase(bitmapColor).execute(new Observer<Bitmap>() {
             @Override
             public void onCompleted() {
 
@@ -101,7 +101,7 @@ public class LocalSearchActivity extends AppCompatActivity {
             @Override
             public void onNext(Bitmap bitmap) {
                 imvOriginalBw.setImageBitmap(bitmap);
-                initCompressImage(bitmap);
+                initCompressImage(bitmapColor);
                 prbOriginalBW.setVisibility(View.GONE);
 
             }
@@ -110,7 +110,7 @@ public class LocalSearchActivity extends AppCompatActivity {
     }
 
     private void initCompressImage(Bitmap bitmap) {
-        Subscription subscription = new CompressImageUsecase(bitmap, true, 2000).execute(new Observer<Bitmap>() {
+        Subscription subscription = new CompressImageUsecase(bitmap, true, 4000).execute(new Observer<Bitmap>() {
             @Override
             public void onCompleted() {
 
