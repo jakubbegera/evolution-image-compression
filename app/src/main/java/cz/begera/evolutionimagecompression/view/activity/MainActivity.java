@@ -6,9 +6,7 @@ import android.widget.Button;
 
 import com.miguelbcr.ui.rx_paparazzo.RxPaparazzo;
 import com.miguelbcr.ui.rx_paparazzo.entities.Response;
-import com.miguelbcr.ui.rx_paparazzo.entities.size.CustomMaxSize;
-import com.miguelbcr.ui.rx_paparazzo.entities.size.ScreenSize;
-import com.miguelbcr.ui.rx_paparazzo.entities.size.Size;
+import com.miguelbcr.ui.rx_paparazzo.entities.size.OriginalSize;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public void startCamera(Action1<Response<MainActivity, String>> observer) {
         RxPaparazzo.takeImage(this)
                 .useInternalStorage()
-                .size(new CustomMaxSize(300))
+                .size(new OriginalSize())
                 .usingCamera()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -57,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public void startGallery(Action1<Response<MainActivity, String>> observer) {
         RxPaparazzo.takeImage(this)
                 .useInternalStorage()
-//                .size(new ScreenSize())
-                .size(new CustomMaxSize(300))
+                .size(new OriginalSize())
                 .usingGallery()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
