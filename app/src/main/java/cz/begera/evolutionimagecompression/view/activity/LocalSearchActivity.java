@@ -10,14 +10,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.begera.evolutionimagecompression.R;
+import cz.begera.evolutionimagecompression.model.IterationData;
 import cz.begera.evolutionimagecompression.usecase.CompressImageUsecase;
 import rx.Observer;
 import rx.Subscription;
@@ -30,22 +36,22 @@ import timber.log.Timber;
 public class LocalSearchActivity extends AppCompatActivity {
 
     private static String EXTRA_ORIGINAL_PICTURE_PATH = "EXTRA_ORIGINAL_PICTURE_PATH";
+    @BindView(R.id.imv_original)
+    protected ImageView imvOriginal;
+    @BindView(R.id.imv_compress)
+    protected ImageView imvCompress;
+    @BindView(R.id.prb_compress)
+    protected ProgressBar prbCompress;
+    @BindView(R.id.chart)
+    protected LineChart chart;
+    LineDataSet dataSet;
+    LineData lineData;
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public static void start(Context context, String originalPicturePath) {
         context.startActivity(new Intent(context, LocalSearchActivity.class)
                 .putExtra(EXTRA_ORIGINAL_PICTURE_PATH, originalPicturePath));
     }
-
-    private CompositeSubscription compositeSubscription = new CompositeSubscription();
-
-    @BindView(R.id.imv_original)
-    protected ImageView imvOriginal;
-
-    @BindView(R.id.imv_compress)
-    protected ImageView imvCompress;
-    @BindView(R.id.prb_compress)
-    protected ProgressBar prbCompress;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +88,10 @@ public class LocalSearchActivity extends AppCompatActivity {
     }
 
     private void initCompressImage(Bitmap bitmap) {
+
+
         Subscription subscription = new CompressImageUsecase(bitmap, true, 4000)
-                .execute(new Observer<Bitmap>() {
+                .execute(new Observer<IterationData>() {
                     @Override
                     public void onCompleted() {
 
@@ -96,11 +104,30 @@ public class LocalSearchActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Bitmap bitmap) {
-                        imvCompress.setImageBitmap(bitmap);
+                    public void onNext(IterationData iteration) {
+                        imvCompress.setImageBitmap(iteration.getBitmap());
                         prbCompress.setVisibility(View.GONE);
+                        addChartEntry(iteration.getIterationNumber(), (float) iteration.getFitness());
                     }
                 });
         compositeSubscription.add(subscription);
+    }
+
+    private void addChartEntry(int x, float y) {
+        if (lineData == null) {
+            dataSet = new LineDataSet(new ArrayList<Entry>(), "Fitness"); // add entries to dataset
+            dataSet.setDrawFilled(true);
+            dataSet.setHighlightEnabled(false);
+            lineData = new LineData(dataSet);
+            chart.setData(lineData);
+            chart.getLegend().setEnabled(false);
+            chart.getAxisRight().setEnabled(false);
+            chart.getDescription().setEnabled(false);
+
+        }
+
+        lineData.addEntry(new Entry(x, y), 0);
+        chart.notifyDataSetChanged();
+        chart.invalidate();
     }
 }

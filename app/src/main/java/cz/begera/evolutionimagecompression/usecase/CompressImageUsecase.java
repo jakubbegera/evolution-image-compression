@@ -6,6 +6,7 @@ import android.graphics.Color;
 import java.util.LinkedList;
 
 import cz.begera.evolutionimagecompression.model.Circle;
+import cz.begera.evolutionimagecompression.model.IterationData;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -15,7 +16,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jakub Begera (jakub@easycoreapps.com) on 18.10.17.
  */
-public class CompressImageUsecase implements Usecase<Bitmap> {
+public class CompressImageUsecase implements Usecase<IterationData> {
 
     private final Bitmap bitmap;
     private final boolean animate;
@@ -24,6 +25,7 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
     private int[][] pix;
     private LinkedList<Circle> shapes = new LinkedList<>();
     private int iteration;
+    private long currentFitness;
 
     public CompressImageUsecase(Bitmap bitmap, boolean animate, int numberOfIterations) {
         this.bitmap = bitmap;
@@ -32,43 +34,43 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
     }
 
     @Override
-    public Subscription execute(Observer<Bitmap> observer) {
+    public Subscription execute(Observer<IterationData> observer) {
         return Observable
-                .create((Observable.OnSubscribe<Bitmap>) subscriber -> {
+                .create((Observable.OnSubscribe<IterationData>) subscriber -> {
 
                     Bitmap bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888, true);
 
                     pixOriginal = new int[bitmap.getWidth()][bitmap.getHeight()];
                     pix = new int[bitmap.getWidth()][bitmap.getHeight()];
 
-                    for (int i = 0; i < pixOriginal.length; i++, iteration++) {
+                    for (int i = 0; i < pixOriginal.length; i++) {
                         for (int j = 0; j < pixOriginal[i].length; j++) {
                             pixOriginal[i][j] = bitmap.getPixel(i, j);
                         }
                     }
 
-                    for (int i = 0; i < numberOfIterations; i++) {
-                        doIteration();
+                    for (int i = 0; i < numberOfIterations; i++, iteration++) {
+                        currentFitness = doIteration();
                         if (animate && i % 50 == 0) {
                             saveToBitmap(bitmap);
-                            subscriber.onNext(bitmap);
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            subscriber.onNext(new IterationData(iteration, bitmap, currentFitness));
+//                            try {
+//                                Thread.sleep(100);
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
                         }
                     }
 
                     saveToBitmap(bitmap);
-                    subscriber.onNext(bitmap);
+                    subscriber.onNext(new IterationData(iteration, bitmap, currentFitness));
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
 
-    private boolean doIteration() {
+    private long doIteration() {
         long fitnessOrigin = computeFitness();
         for (int i = 0; i < 100; i++) {
             Circle circle = generateRandomShape();
@@ -76,10 +78,10 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
             long fitnessNew = computeFitness(newPix);
             if (fitnessNew < fitnessOrigin) {
                 pix = newPix;
-                return true;
+                return fitnessNew;
             }
         }
-        return false;
+        return -1;
     }
 
     private Circle generateRandomShape() {
@@ -168,4 +170,5 @@ public class CompressImageUsecase implements Usecase<Bitmap> {
             }
         }
     }
+
 }

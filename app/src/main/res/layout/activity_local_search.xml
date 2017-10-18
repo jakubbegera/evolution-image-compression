@@ -26,9 +26,9 @@
                 android:id="@+id/imv_original"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:layout_margin="10dp"/>
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -42,16 +42,21 @@
                 android:id="@+id/prb_compress"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:indeterminate="true"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"/>
 
             <ImageView
                 android:id="@+id/imv_compress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:layout_margin="10dp"/>
+                android:scaleType="centerCrop"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
 
         </LinearLayout>
     </ScrollView>
