@@ -16,7 +16,7 @@ repositories {
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 1
+def versionPatch = 2
 def versionBuild = 0
 
 static def getDate() {
@@ -68,6 +68,9 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.jakewharton.timber:timber:4.3.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:answers:1.4.0@aar') {
         transitive = true;
     }
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
