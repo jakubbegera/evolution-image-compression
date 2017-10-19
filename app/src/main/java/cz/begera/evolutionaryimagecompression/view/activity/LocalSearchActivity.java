@@ -85,6 +85,12 @@ public class LocalSearchActivity extends AppCompatActivity {
         }
 
         String originalPicturePath = getIntent().getStringExtra(EXTRA_ORIGINAL_PICTURE_PATH);
+        if (originalPicturePath == null) {
+            Timber.e("Null originalPicturePath");
+            onBackPressed();
+            return;
+        }
+
         updateNumberOfIterations(3000);
 
         Picasso.with(this)
@@ -166,13 +172,13 @@ public class LocalSearchActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "BW image init fail");
-                        prbCompress.setVisibility(View.INVISIBLE);
+                        prbCompress.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onNext(IterationData iteration) {
                         imvCompress.setImageBitmap(iteration.getBitmap().copy(Bitmap.Config.ARGB_8888, false));
-                        prbCompress.setVisibility(View.INVISIBLE);
+                        prbCompress.setVisibility(View.GONE);
                         addChartEntry(iteration.getIterationNumber(), (float) iteration.getFitness());
                         prbCompressIterations.setProgress(iteration.getIterationNumber());
                         txvProgress.setText(getString(R.string.progress,

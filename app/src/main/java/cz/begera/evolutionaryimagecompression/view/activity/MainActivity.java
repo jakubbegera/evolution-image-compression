@@ -1,5 +1,6 @@
 package cz.begera.evolutionaryimagecompression.view.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,13 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
         btnLocalSearchCamera.setOnClickListener(v -> {
             startCamera(response -> {
-                LocalSearchActivity.start(MainActivity.this, response.data());
+                if (response.resultCode() == Activity.RESULT_OK) {
+                    LocalSearchActivity.start(MainActivity.this, response.data());
+                }
             });
         });
 
         btnLocalSearchGallery.setOnClickListener(v -> {
             startGallery(response -> {
-                LocalSearchActivity.start(MainActivity.this, response.data());
+                if (response.resultCode() == Activity.RESULT_OK) {
+                    LocalSearchActivity.start(MainActivity.this, response.data());
+                }
             });
         });
 
